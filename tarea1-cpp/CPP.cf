@@ -1,0 +1,100 @@
+PDefs.   Program ::= [Def] ;
+
+DFun.    Def    ::= Type Id "(" [Arg] ")" "{" [Stm] "}" ;
+DFunQId.    Def    ::= Id "<" [Type] ">" Id "(" [Arg] ")" "{" [Stm] "}" ; --Porque mierda no me reconoce el QId!?
+DFunSBdy.    Def    ::= Type Id "(" [Arg] ")" ";" ;
+DFunId.  Def    ::= Id Id "(" [Arg] ")" "{" [Stm] "}" ;
+DUs.     Def    ::= "using" Exp15 ";" ;
+DType.   Def    ::= "typedef" Exp15 ";" ;
+
+terminator Def "" ;
+
+
+ADecl.   Arg    ::= Type Id ;
+ADeclId. Arg    ::= QId Id ;
+AConst.  Arg    ::= "const" Arg ;
+ADeclVec. Arg   ::= Type "&" Id ;
+ADecIdVec.  Arg ::= QId "&" Id ;
+ADecIdVecBlnck.  Arg ::= QId "&" ;
+ADeclBlnck.   Arg    ::= Type ;
+
+separator Arg "," ;
+
+SExp.        Stm ::= Exp ";" ;
+SDecls.      Stm ::= Type [Id] ";" ;
+SInit.       Stm ::= Type Id "=" Exp ";" ;
+SReturn.     Stm ::= "return" Exp ";" ;
+SReturnVoid. Stm ::= "return" ";" ;
+SWhile.      Stm ::= "while" "(" Exp ")" Stm ;
+SBlock.      Stm ::= "{" [Stm] "}" ;
+SIf.         Stm ::= "if" "(" Exp ")" Stm ;  
+SIfElse.     Stm ::= "if" "(" Exp ")" Stm "else" Stm ;
+SType.       Stm ::= "typedef" Exp15 ";" ;
+SConst.      Stm ::= "const"   Exp15 ";" ;
+
+terminator Stm "" ;
+
+QId.    QId ::= Id ;
+QIdDoble. QId ::= Id Id;
+QIdT.   QId ::= Id "<" [Type] ">" ;
+QIdTI.   QId ::= Id "<" [Type] ">" Id;
+separator nonempty QId "::" ;
+separator nonempty Type "," ;
+
+ETrue.   Exp15  ::= "true" ;
+EFalse.  Exp15  ::= "false" ;
+EInt.    Exp15  ::= Integer ;
+EDouble. Exp15  ::= Double ;
+EChar.   Exp15  ::= Char ;
+EString. Exp15  ::= [String] ;
+EArr.    Exp15  ::= Id "[" Exp "]";
+EQcte.   Exp15  ::= [QId] ;
+ECall.   Exp15  ::= Id "(" Id "," [Id] ")"  ;
+ECallEx.   Exp15  ::= Id "(" Exp "," [Exp] ")"  ;
+EApp.    Exp15  ::= Id "(" [Exp] ")" ;
+
+separator nonempty String "" ;
+
+EPIncr.  Exp14  ::= Exp15 "++" ;
+EPDecr.  Exp14  ::= Exp15 "--" ;
+EPEstr.  Exp14  ::= Exp15 "." Exp15 ; 
+EProy.   Exp14  ::= Exp15 "->" Exp15 ;
+
+EIncr.   Exp13  ::= "++" Exp14 ;
+EDecr.   Exp13  ::= "--" Exp14 ;
+ENeg.    Exp13  ::= "!"  Exp14 ;
+
+ETimes.  Exp12  ::= Exp12 "*"  Exp13 ;
+EDiv.    Exp12  ::= Exp12 "/"  Exp13 ;
+ERest.   Exp12  ::= Exp12 "%"  Exp13 ;
+ELt.     Exp9   ::= Exp9  "<"  Exp10 ;
+EGt.     Exp9   ::= Exp9  ">"  Exp10 ;
+ELtEq.   Exp9   ::= Exp9  "<=" Exp10 ;
+EGtEq.   Exp9   ::= Exp9  ">=" Exp10 ;
+EEq.     Exp8   ::= Exp8  "==" Exp9 ;
+ENEq.    Exp8   ::= Exp8  "!=" Exp9 ;
+EAnd.    Exp4   ::= Exp4  "&&" Exp5 ;
+EOr.     Exp3   ::= Exp3  "||" Exp4 ;
+EAss.    Exp2   ::= Exp3 "=" Exp2 ;
+ECond.   Exp2   ::= Exp3 "?" Exp2 ":" Exp2 ;
+EExcp.   Exp1   ::= "throw" Exp2 ;
+
+internal ETyped. Exp15 ::= "(" Exp ":" Type ")" ;
+
+coercions Exp 15 ;
+
+separator Exp "," ;
+
+rules BuilInType   ::= "bool" | "int" | "double" | "void" ;
+
+TypeB. Type ::= BuilInType ;
+TypeQ. Type ::= [QId];
+
+token Id (letter (letter | digit | '_' )*) ;
+
+separator nonempty Id "," ;
+
+comment "#" ;
+comment "//" ;
+comment "/*" "*/" ;
+

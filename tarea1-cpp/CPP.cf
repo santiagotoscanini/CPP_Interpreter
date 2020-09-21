@@ -1,8 +1,8 @@
 PDefs.   Program ::= [Def] ;
 
 DFun.    Def    ::= Type Id "(" [Arg] ")" "{" [Stm] "}" ;
-DFunQId.    Def    ::= Id "<" [Type] ">" Id "(" [Arg] ")" "{" [Stm] "}" ; --Porque mierda no me reconoce el QId!?
-DFunSBdy.    Def    ::= Type Id "(" [Arg] ")" ";" ;
+DFunQId. Def    ::= Id "<" [Type] ">" Id "(" [Arg] ")" "{" [Stm] "}" ; --Porque mierda no me reconoce el QId!?
+DFunSBdy.Def    ::= Type Id "(" [Arg] ")" ";" ;
 DFunId.  Def    ::= Id Id "(" [Arg] ")" "{" [Stm] "}" ;
 DUs.     Def    ::= "using" Exp15 ";" ;
 DType.   Def    ::= "typedef" Exp15 ";" ;
@@ -14,7 +14,6 @@ ADecl.   Arg    ::= Type Id ;
 ADeclId. Arg    ::= QId Id ;
 AConst.  Arg    ::= "const" Arg ;
 ADeclVec. Arg   ::= Type "&" Id ;
-ADecIdVec.  Arg ::= QId "&" Id ;
 ADecIdVecBlnck.  Arg ::= QId "&" ;
 ADeclBlnck.   Arg    ::= Type ;
 
@@ -30,14 +29,14 @@ SBlock.      Stm ::= "{" [Stm] "}" ;
 SIf.         Stm ::= "if" "(" Exp ")" Stm ;  
 SIfElse.     Stm ::= "if" "(" Exp ")" Stm "else" Stm ;
 SType.       Stm ::= "typedef" Exp15 ";" ;
-SConst.      Stm ::= "const"   Exp15 ";" ;
+SConst.      Stm ::= "const" Type Exp2 ";" ;
 
 terminator Stm "" ;
 
 QId.    QId ::= Id ;
 QIdDoble. QId ::= Id Id;
 QIdT.   QId ::= Id "<" [Type] ">" ;
-QIdTI.   QId ::= Id "<" [Type] ">" Id;
+QIdTI.   QId ::= Id "<" [Type] ">" Id; -- por que necesito poner el Id al final, si es un [Qid] y puede ser solo un Id
 separator nonempty QId "::" ;
 separator nonempty Type "," ;
 
@@ -48,9 +47,8 @@ EDouble. Exp15  ::= Double ;
 EChar.   Exp15  ::= Char ;
 EString. Exp15  ::= [String] ;
 EArr.    Exp15  ::= Id "[" Exp "]";
-EQcte.   Exp15  ::= [QId] ;
-ECall.   Exp15  ::= Id "(" Id "," [Id] ")"  ;
-ECallEx.   Exp15  ::= Id "(" Exp "," [Exp] ")"  ;
+EQct.    Exp15  ::= [QId] ;
+ECall.   Exp15  ::= Id "(" Id "," [Id] ")" ;
 EApp.    Exp15  ::= Id "(" [Exp] ")" ;
 
 separator nonempty String "" ;
@@ -67,6 +65,10 @@ ENeg.    Exp13  ::= "!"  Exp14 ;
 ETimes.  Exp12  ::= Exp12 "*"  Exp13 ;
 EDiv.    Exp12  ::= Exp12 "/"  Exp13 ;
 ERest.   Exp12  ::= Exp12 "%"  Exp13 ;
+EPlus.   Exp11  ::= Exp11 "+"  Exp12 ;
+EMinus.  Exp11  ::= Exp11 "-"  Exp12 ;
+EShiftL. Exp10  ::= Exp10 "<<"  Exp11 ;
+EShiftR. Exp10  ::= Exp10 ">>"  Exp11 ;
 ELt.     Exp9   ::= Exp9  "<"  Exp10 ;
 EGt.     Exp9   ::= Exp9  ">"  Exp10 ;
 ELtEq.   Exp9   ::= Exp9  "<=" Exp10 ;

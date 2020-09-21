@@ -1,0 +1,11 @@
+*/*.hi
+*/*.hs
+*/*.o
+*/*.x
+*/*.y
+*/Makefile
+.vscode
+
+# tarea1
+/tarea1-cpp/*.txt
+/tarea1-cpp/TestCPP

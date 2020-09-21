@@ -52,7 +52,7 @@ int nrand(int);
 vector<string> gen_sentence(const Grammar& g)
 {
 	vector<string> ret;
-	gen_aux("<sentence>", ret);
+	gen_aux("<sentence>", g, ret);
 	return ret;
 }
 
@@ -74,54 +74,54 @@ gen_aux(const Grammar& g, const string& word, vector<string>& ret)
 			throw logic_error("empty rule");
 
 		// fetch the set of possible rules
-		const int c = a;
+		const Rule_collection& c = it->second;
 
 		// from which we select one at random
-// 		const Rule& r = c[nrand(c.size())];
+		const Rule& r = c[nrand(c.size())];
 
-// 		// recursively expand the selected rule
-// 		for (Rule::const_iterator i = r.begin(); i != r.end(); ++i)
-// 			gen_aux(g, *i, ret);
+		// recursively expand the selected rule
+		for (Rule::const_iterator i = r.begin(); i != r.end(); ++i)
+			gen_aux(g, *i, ret);
 	}
 }
 
-// int main()
-// {
-// 	// generate the sentence
-// 	vector<string> sentence = gen_sentence(read_grammar(cin));
+int main()
+{
+	// generate the sentence
+	vector<string> sentence = gen_sentence(read_grammar(cin));
 
-// 	// write the first word, if any
-// #ifdef _MSC_VER
-// 	std::vector<string>::const_iterator it = sentence.begin();
-// #else
-// 	vector<string>::const_iterator it = sentence.begin();
-// #endif
-// 	if (!sentence.empty()) {
-// 		cout << *it;
-// 		++it;
-// 	}
+	// write the first word, if any
+#ifdef _MSC_VER
+	std::vector<string>::const_iterator it = sentence.begin();
+#else
+	vector<string>::const_iterator it = sentence.begin();
+#endif
+	if (!sentence.empty()) {
+		cout << *it;
+		++it;
+	}
 
-// 	// write the rest of the words, each preceded by a space
-// 	while (it != sentence.end()) {
-// 		cout << " " << *it;
-// 		++it;
-// 	}
+	// write the rest of the words, each preceded by a space
+	while (it != sentence.end()) {
+		cout << " " << *it;
+		++it;
+	}
 
-// 	cout << endl;
-// 	return 0;
-// }
+	cout << endl;
+	return 0;
+}
 
-// // return a random integer in the range `[0,' `n)'
-// int nrand(int n)
-// {
-// 	if (n <= 0 || n > RAND_MAX)
-// 		throw domain_error("Argument to nrand is out of range");
+// return a random integer in the range `[0,' `n)'
+int nrand(int n)
+{
+	if (n <= 0 || n > RAND_MAX)
+		throw domain_error("Argument to nrand is out of range");
 
-// 	const int bucket_size = RAND_MAX / n;
-// 	int r;
+	const int bucket_size = RAND_MAX / n;
+	int r;
 
-// 	do r = rand() / bucket_size;
-// 	while (r >= n);
+	do r = rand() / bucket_size;
+	while (r >= n);
 
-// 	return r;
-// }
+	return r;
+}

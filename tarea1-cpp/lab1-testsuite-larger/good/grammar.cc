@@ -1,6 +1,7 @@
 #ifdef _MSC_VER
 #pragma warning(disable:4503)      // `silence compiler complaints about generated names being too long'
 #endif
+
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -51,7 +52,7 @@ int nrand(int);
 vector<string> gen_sentence(const Grammar& g)
 {
 	vector<string> ret;
-	gen_aux("<sentence>", g, ret);
+	gen_aux(g, "<sentence>", ret);
 	return ret;
 }
 
@@ -124,3 +125,4 @@ int nrand(int n)
 
 	return r;
 }
+

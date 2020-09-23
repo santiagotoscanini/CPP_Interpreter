@@ -16,6 +16,7 @@ data Def
     | DFunSBdy Type Id [Arg]
     | DUs QConst
     | DType Type Id
+    | DDecls Type [Id]
   deriving (Eq, Ord, Show, Read)
 
 data Arg = ADecl Type Id | AConst Arg | ADeclBlnck Type

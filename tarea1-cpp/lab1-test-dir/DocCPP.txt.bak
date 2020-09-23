@@ -40,11 +40,10 @@ Id literals are recognized by the regular expression
 The set of reserved words is the set of terminals appearing in the grammar. Those reserved words that consist of non-letter characters are called symbols, and they are treated in a different way from those that are similar to identifiers. The lexer follows rules familiar from languages like Haskell, C, and Java, including longest match and spacing conventions.
 
 The reserved words used in CPP are the following:
-  | ``bool`` | ``const`` | ``do`` | ``double``
-  | ``else`` | ``false`` | ``for`` | ``if``
-  | ``inline`` | ``int`` | ``return`` | ``struct``
-  | ``throw`` | ``true`` | ``typedef`` | ``using``
-  | ``void`` | ``while`` |  | 
+  | ``bool`` | ``const`` | ``double`` | ``else``
+  | ``false`` | ``for`` | ``if`` | ``int``
+  | ``return`` | ``throw`` | ``true`` | ``typedef``
+  | ``using`` | ``void`` | ``while`` | 
 
 The symbols used in CPP are the following:
   | ( | ) | { | }
@@ -54,8 +53,8 @@ The symbols used in CPP are the following:
   | * | ! | / | %
   | + | - | << | >>
   | <= | >= | == | !=
-  | && | || | -= | +=
-  | ? | : | & | 
+  | && | || | ? | :
+  | & |  |  | 
 
 ===Comments===
 Single-line comments begin with #, //.Multiple-line comments are  enclosed with /* and */.
@@ -69,20 +68,12 @@ All other symbols are terminals.
   | //Program// | -> | //[Def]// 
   | //Def// | -> | //Type// //Id// ``(`` //[Arg]// ``)`` ``{`` //[Stm]// ``}`` 
   |  |  **|**  | //Type// //Id// ``(`` //[Arg]// ``)`` ``;`` 
-  |  |  **|**  | ``inline`` //Type// //Id// ``(`` //[Arg]// ``)`` ``{`` //[Stm]// ``}`` 
-  |  |  **|**  | ``inline`` //Type// //Id// ``(`` //[Arg]// ``)`` ``;`` 
   |  |  **|**  | ``using`` //QConst// ``;`` 
   |  |  **|**  | ``typedef`` //Type// //Id// ``;`` 
-  |  |  **|**  | //Decl// 
-  |  |  **|**  | ``struct`` //Id// ``{`` //[Decl]// ``}`` ``;`` 
+  |  |  **|**  | //Type// //Id// ``=`` //Exp// ``;`` 
   | //[Def]// | -> | **eps**
   |  |  **|**  | //Def// //[Def]// 
-  | //Decl// | -> | //Type// //[Id]// ``;`` 
-  |  |  **|**  | //Type// //Id// ``=`` //Exp// ``;`` 
-  | //[Decl]// | -> | **eps**
-  |  |  **|**  | //Decl// //[Decl]// 
   | //Arg// | -> | //Type// //Id// 
-  |  |  **|**  | //Type// //Id// ``=`` //Exp15// 
   |  |  **|**  | ``const`` //Arg// 
   |  |  **|**  | //Type// 
   | //[Arg]// | -> | **eps**
@@ -90,18 +81,17 @@ All other symbols are terminals.
   |  |  **|**  | //Arg// ``,`` //[Arg]// 
   | //Stm// | -> | ``;`` 
   |  |  **|**  | //Exp// ``;`` 
-  |  |  **|**  | //Decl// 
+  |  |  **|**  | //Type// //[Id]// ``;`` 
+  |  |  **|**  | //Type// //Id// ``=`` //Exp// ``;`` 
   |  |  **|**  | ``return`` //Exp// ``;`` 
   |  |  **|**  | ``return`` ``;`` 
   |  |  **|**  | ``while`` ``(`` //Exp// ``)`` //Stm// 
-  |  |  **|**  | ``do`` //Stm// ``while`` ``(`` //Exp// ``)`` //Stm// 
   |  |  **|**  | ``{`` //[Stm]// ``}`` 
   |  |  **|**  | ``if`` ``(`` //Exp// ``)`` //Stm// 
   |  |  **|**  | ``if`` ``(`` //Exp// ``)`` //Stm// ``else`` //Stm// 
-  |  |  **|**  | ``for`` ``(`` //Decl// //Exp// ``;`` //Exp// ``)`` //Stm// 
+  |  |  **|**  | ``for`` ``(`` //Stm// //Exp// ``;`` //Exp// ``)`` //Stm// 
   |  |  **|**  | ``typedef`` //Type// //Id// ``;`` 
   |  |  **|**  | ``const`` //Type// //Exp2// ``;`` 
-  |  |  **|**  | ``struct`` //Id// ``{`` //[Decl]// ``}`` ``;`` 
   | //[Stm]// | -> | **eps**
   |  |  **|**  | //Stm// //[Stm]// 
   | //QId// | -> | //Id// 
@@ -154,9 +144,7 @@ All other symbols are terminals.
   |  |  **|**  | //Exp5// 
   | //Exp3// | -> | //Exp3// ``||`` //Exp4// 
   |  |  **|**  | //Exp4// 
-  | //Exp2// | -> | //Exp3// ``-=`` //Exp2// 
-  |  |  **|**  | //Exp3// ``+=`` //Exp2// 
-  |  |  **|**  | //Exp3// ``=`` //Exp2// 
+  | //Exp2// | -> | //Exp3// ``=`` //Exp2// 
   |  |  **|**  | //Exp3// ``?`` //Exp2// ``:`` //Exp2// 
   |  |  **|**  | //Exp3// 
   | //Exp1// | -> | ``throw`` //Exp2// 

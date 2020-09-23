@@ -69,14 +69,14 @@ alex_base = listArray (0 :: Int, 57)
   , 0
   , 139
   , -19
-  , -34
-  , 91
+  , 92
+  , 111
+  , -52
   , -41
-  , -40
   , 0
   , 26
-  , -2
-  , 50
+  , -36
+  , 18
   , 3154
   , 3253
   , 0
@@ -176,7 +176,7 @@ alex_table = listArray (0 :: Int, 3508)
   , 47
   , 47
   , 47
-  , 47
+  , 0
   , 51
   , 51
   , 51
@@ -223,28 +223,28 @@ alex_table = listArray (0 :: Int, 3508)
   , 56
   , 56
   , 56
-  , 0
-  , 47
-  , 2
-  , 57
-  , 57
-  , 57
-  , 57
-  , 57
-  , 57
-  , 57
-  , 57
-  , 57
-  , 57
-  , 41
-  , 41
-  , 41
-  , 41
-  , 41
   , 47
   , 0
   , 2
+  , 57
+  , 57
+  , 57
+  , 57
+  , 57
+  , 57
+  , 57
+  , 57
+  , 57
+  , 57
+  , 41
+  , 41
+  , 41
+  , 41
+  , 41
+  , 47
   , 0
+  , 2
+  , 47
   , 0
   , 0
   , 0
@@ -260,8 +260,8 @@ alex_table = listArray (0 :: Int, 3508)
   , 0
   , 0
   , 41
-  , 0
-  , 0
+  , 47
+  , 47
   , 0
   , 0
   , 0
@@ -3610,7 +3610,7 @@ alex_check = listArray (0 :: Int, 3508)
   , 39
   , 45
   , 124
-  , 43
+  , 61
   , 48
   , 49
   , 50
@@ -3622,8 +3622,8 @@ alex_check = listArray (0 :: Int, 3508)
   , 56
   , 57
   , 61
-  , 61
   , 62
+  , 58
   , 42
   , 32
   , 33
@@ -3657,7 +3657,7 @@ alex_check = listArray (0 :: Int, 3508)
   , 61
   , 62
   , 63
-  , 58
+  , 38
   , 65
   , 66
   , 67
@@ -3689,7 +3689,7 @@ alex_check = listArray (0 :: Int, 3508)
   , 93
   , 60
   , 61
-  , 38
+  , -1
   , 97
   , 98
   , 99
@@ -3736,8 +3736,8 @@ alex_check = listArray (0 :: Int, 3508)
   , 55
   , 56
   , 57
+  , 43
   , -1
-  , 45
   , 92
   , 48
   , 49
@@ -3754,10 +3754,10 @@ alex_check = listArray (0 :: Int, 3508)
   , 11
   , 12
   , 13
-  , 62
+  , 61
   , -1
   , 110
-  , -1
+  , 45
   , -1
   , -1
   , -1
@@ -3773,8 +3773,8 @@ alex_check = listArray (0 :: Int, 3508)
   , -1
   , -1
   , 32
-  , -1
-  , -1
+  , 61
+  , 62
   , -1
   , -1
   , -1
@@ -7322,7 +7322,7 @@ eitherResIdent tv s = treeFind resWords
                               | s == a = t
 
 resWords :: BTree
-resWords = b ">" 25 (b "--" 13 (b ")" 7 (b "&" 4 (b "!=" 2 (b "!" 1 N N) (b "%" 3 N N)) (b "(" 6 (b "&&" 5 N N) N)) (b "++" 10 (b "+" 9 (b "*" 8 N N) N) (b "-" 12 (b "," 11 N N) N))) (b ";" 19 (b "/" 16 (b "." 15 (b "->" 14 N N) N) (b "::" 18 (b ":" 17 N N) N)) (b "<=" 22 (b "<<" 21 (b "<" 20 N N) N) (b "==" 24 (b "=" 23 N N) N)))) (b "if" 37 (b "bool" 31 (b "?" 28 (b ">>" 27 (b ">=" 26 N N) N) (b "]" 30 (b "[" 29 N N) N)) (b "else" 34 (b "double" 33 (b "const" 32 N N) N) (b "for" 36 (b "false" 35 N N) N))) (b "using" 43 (b "throw" 40 (b "return" 39 (b "int" 38 N N) N) (b "typedef" 42 (b "true" 41 N N) N)) (b "{" 46 (b "while" 45 (b "void" 44 N N) N) (b "}" 48 (b "||" 47 N N) N))))
+resWords = b ">" 27 (b "--" 14 (b ")" 7 (b "&" 4 (b "!=" 2 (b "!" 1 N N) (b "%" 3 N N)) (b "(" 6 (b "&&" 5 N N) N)) (b "+=" 11 (b "+" 9 (b "*" 8 N N) (b "++" 10 N N)) (b "-" 13 (b "," 12 N N) N))) (b ";" 21 (b "/" 18 (b "->" 16 (b "-=" 15 N N) (b "." 17 N N)) (b "::" 20 (b ":" 19 N N) N)) (b "<=" 24 (b "<<" 23 (b "<" 22 N N) N) (b "==" 26 (b "=" 25 N N) N)))) (b "inline" 41 (b "const" 34 (b "[" 31 (b ">>" 29 (b ">=" 28 N N) (b "?" 30 N N)) (b "bool" 33 (b "]" 32 N N) N)) (b "false" 38 (b "double" 36 (b "do" 35 N N) (b "else" 37 N N)) (b "if" 40 (b "for" 39 N N) N))) (b "using" 48 (b "throw" 45 (b "return" 43 (b "int" 42 N N) (b "struct" 44 N N)) (b "typedef" 47 (b "true" 46 N N) N)) (b "{" 51 (b "while" 50 (b "void" 49 N N) N) (b "}" 53 (b "||" 52 N N) N))))
    where b s n = let bs = id s
                   in B bs (TS bs n)
 

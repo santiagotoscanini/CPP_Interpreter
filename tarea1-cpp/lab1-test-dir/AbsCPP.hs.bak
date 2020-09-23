@@ -14,39 +14,28 @@ data Program = PDefs [Def]
 data Def
     = DFun Type Id [Arg] [Stm]
     | DFunSBdy Type Id [Arg]
-    | DFunInline Type Id [Arg] [Stm]
-    | DFunSBdyIL Type Id [Arg]
     | DUs QConst
     | DType Type Id
-    | DDecls Decl
-    | DStruct Id [Decl]
+    | DInit Type Id Exp
   deriving (Eq, Ord, Show, Read)
 
-data Decl = Decl Type [Id] | DInit Type Id Exp
-  deriving (Eq, Ord, Show, Read)
-
-data Arg
-    = ADecl Type Id
-    | ADeclIn Type Id Exp
-    | AConst Arg
-    | ADeclBlnck Type
+data Arg = ADecl Type Id | AConst Arg | ADeclBlnck Type
   deriving (Eq, Ord, Show, Read)
 
 data Stm
     = SEmpty
     | SExp Exp
-    | SDecls Decl
+    | SDecls Type [Id]
+    | SInit Type Id Exp
     | SReturn Exp
     | SReturnVoid
     | SWhile Exp Stm
-    | SDoWhile Stm Exp Stm
     | SBlock [Stm]
     | SIf Exp Stm
     | SIfElse Exp Stm Stm
-    | SFor Decl Exp Exp Stm
+    | SFor Stm Exp Exp Stm
     | SType Type Id
     | SConst Type Exp
-    | SStruct Id [Decl]
   deriving (Eq, Ord, Show, Read)
 
 data QId = QId Id | QIdT Id [Type]
@@ -87,8 +76,6 @@ data Exp
     | ENEq Exp Exp
     | EAnd Exp Exp
     | EOr Exp Exp
-    | EMinAss Exp Exp
-    | EAddAss Exp Exp
     | EAss Exp Exp
     | ECond Exp Exp Exp
     | EExcp Exp

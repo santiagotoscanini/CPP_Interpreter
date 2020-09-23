@@ -11,6 +11,8 @@ import ErrM
 %name pProgram Program
 %name pDef Def
 %name pListDef ListDef
+%name pDecl Decl
+%name pListDecl ListDecl
 %name pArg Arg
 %name pListArg ListArg
 %name pStm Stm
@@ -55,44 +57,49 @@ import ErrM
   '*' { PT _ (TS _ 8) }
   '+' { PT _ (TS _ 9) }
   '++' { PT _ (TS _ 10) }
-  ',' { PT _ (TS _ 11) }
-  '-' { PT _ (TS _ 12) }
-  '--' { PT _ (TS _ 13) }
-  '->' { PT _ (TS _ 14) }
-  '.' { PT _ (TS _ 15) }
-  '/' { PT _ (TS _ 16) }
-  ':' { PT _ (TS _ 17) }
-  '::' { PT _ (TS _ 18) }
-  ';' { PT _ (TS _ 19) }
-  '<' { PT _ (TS _ 20) }
-  '<<' { PT _ (TS _ 21) }
-  '<=' { PT _ (TS _ 22) }
-  '=' { PT _ (TS _ 23) }
-  '==' { PT _ (TS _ 24) }
-  '>' { PT _ (TS _ 25) }
-  '>=' { PT _ (TS _ 26) }
-  '>>' { PT _ (TS _ 27) }
-  '?' { PT _ (TS _ 28) }
-  '[' { PT _ (TS _ 29) }
-  ']' { PT _ (TS _ 30) }
-  'bool' { PT _ (TS _ 31) }
-  'const' { PT _ (TS _ 32) }
-  'double' { PT _ (TS _ 33) }
-  'else' { PT _ (TS _ 34) }
-  'false' { PT _ (TS _ 35) }
-  'for' { PT _ (TS _ 36) }
-  'if' { PT _ (TS _ 37) }
-  'int' { PT _ (TS _ 38) }
-  'return' { PT _ (TS _ 39) }
-  'throw' { PT _ (TS _ 40) }
-  'true' { PT _ (TS _ 41) }
-  'typedef' { PT _ (TS _ 42) }
-  'using' { PT _ (TS _ 43) }
-  'void' { PT _ (TS _ 44) }
-  'while' { PT _ (TS _ 45) }
-  '{' { PT _ (TS _ 46) }
-  '||' { PT _ (TS _ 47) }
-  '}' { PT _ (TS _ 48) }
+  '+=' { PT _ (TS _ 11) }
+  ',' { PT _ (TS _ 12) }
+  '-' { PT _ (TS _ 13) }
+  '--' { PT _ (TS _ 14) }
+  '-=' { PT _ (TS _ 15) }
+  '->' { PT _ (TS _ 16) }
+  '.' { PT _ (TS _ 17) }
+  '/' { PT _ (TS _ 18) }
+  ':' { PT _ (TS _ 19) }
+  '::' { PT _ (TS _ 20) }
+  ';' { PT _ (TS _ 21) }
+  '<' { PT _ (TS _ 22) }
+  '<<' { PT _ (TS _ 23) }
+  '<=' { PT _ (TS _ 24) }
+  '=' { PT _ (TS _ 25) }
+  '==' { PT _ (TS _ 26) }
+  '>' { PT _ (TS _ 27) }
+  '>=' { PT _ (TS _ 28) }
+  '>>' { PT _ (TS _ 29) }
+  '?' { PT _ (TS _ 30) }
+  '[' { PT _ (TS _ 31) }
+  ']' { PT _ (TS _ 32) }
+  'bool' { PT _ (TS _ 33) }
+  'const' { PT _ (TS _ 34) }
+  'do' { PT _ (TS _ 35) }
+  'double' { PT _ (TS _ 36) }
+  'else' { PT _ (TS _ 37) }
+  'false' { PT _ (TS _ 38) }
+  'for' { PT _ (TS _ 39) }
+  'if' { PT _ (TS _ 40) }
+  'inline' { PT _ (TS _ 41) }
+  'int' { PT _ (TS _ 42) }
+  'return' { PT _ (TS _ 43) }
+  'struct' { PT _ (TS _ 44) }
+  'throw' { PT _ (TS _ 45) }
+  'true' { PT _ (TS _ 46) }
+  'typedef' { PT _ (TS _ 47) }
+  'using' { PT _ (TS _ 48) }
+  'void' { PT _ (TS _ 49) }
+  'while' { PT _ (TS _ 50) }
+  '{' { PT _ (TS _ 51) }
+  '||' { PT _ (TS _ 52) }
+  '}' { PT _ (TS _ 53) }
 
 L_integ  { PT _ (TI $$) }
 L_doubl  { PT _ (TD $$) }
@@ -114,12 +121,22 @@ Program : ListDef { AbsCPP.PDefs (reverse $1) }
 Def :: { Def }
 Def : Type Id '(' ListArg ')' '{' ListStm '}' { AbsCPP.DFun $1 $2 $4 (reverse $7) }
     | Type Id '(' ListArg ')' ';' { AbsCPP.DFunSBdy $1 $2 $4 }
+    | 'inline' Type Id '(' ListArg ')' '{' ListStm '}' { AbsCPP.DFunInline $2 $3 $5 (reverse $8) }
+    | 'inline' Type Id '(' ListArg ')' ';' { AbsCPP.DFunSBdyIL $2 $3 $5 }
     | 'using' QConst ';' { AbsCPP.DUs $2 }
     | 'typedef' Type Id ';' { AbsCPP.DType $2 $3 }
+    | Decl { AbsCPP.DDecls $1 }
+    | 'struct' Id '{' ListDecl '}' ';' { AbsCPP.DStruct $2 (reverse $4) }
 ListDef :: { [Def] }
 ListDef : {- empty -} { [] } | ListDef Def { flip (:) $1 $2 }
+Decl :: { Decl }
+Decl : Type ListId ';' { AbsCPP.Decl $1 $2 }
+     | Type Id '=' Exp ';' { AbsCPP.DInit $1 $2 $4 }
+ListDecl :: { [Decl] }
+ListDecl : {- empty -} { [] } | ListDecl Decl { flip (:) $1 $2 }
 Arg :: { Arg }
 Arg : Type Id { AbsCPP.ADecl $1 $2 }
+    | Type Id '=' Exp15 { AbsCPP.ADeclIn $1 $2 $4 }
     | 'const' Arg { AbsCPP.AConst $2 }
     | Type { AbsCPP.ADeclBlnck $1 }
 ListArg :: { [Arg] }
@@ -129,17 +146,18 @@ ListArg : {- empty -} { [] }
 Stm :: { Stm }
 Stm : ';' { AbsCPP.SEmpty }
     | Exp ';' { AbsCPP.SExp $1 }
-    | Type ListId ';' { AbsCPP.SDecls $1 $2 }
-    | Type Id '=' Exp ';' { AbsCPP.SInit $1 $2 $4 }
+    | Decl { AbsCPP.SDecls $1 }
     | 'return' Exp ';' { AbsCPP.SReturn $2 }
     | 'return' ';' { AbsCPP.SReturnVoid }
     | 'while' '(' Exp ')' Stm { AbsCPP.SWhile $3 $5 }
+    | 'do' Stm 'while' '(' Exp ')' Stm { AbsCPP.SDoWhile $2 $5 $7 }
     | '{' ListStm '}' { AbsCPP.SBlock (reverse $2) }
     | 'if' '(' Exp ')' Stm { AbsCPP.SIf $3 $5 }
     | 'if' '(' Exp ')' Stm 'else' Stm { AbsCPP.SIfElse $3 $5 $7 }
-    | 'for' '(' Stm Exp ';' Exp ')' Stm { AbsCPP.SFor $3 $4 $6 $8 }
+    | 'for' '(' Decl Exp ';' Exp ')' Stm { AbsCPP.SFor $3 $4 $6 $8 }
     | 'typedef' Type Id ';' { AbsCPP.SType $2 $3 }
     | 'const' Type Exp2 ';' { AbsCPP.SConst $2 $3 }
+    | 'struct' Id '{' ListDecl '}' ';' { AbsCPP.SStruct $2 (reverse $4) }
 ListStm :: { [Stm] }
 ListStm : {- empty -} { [] } | ListStm Stm { flip (:) $1 $2 }
 QId :: { QId }
@@ -204,7 +222,9 @@ Exp4 : Exp4 '&&' Exp5 { AbsCPP.EAnd $1 $3 } | Exp5 { $1 }
 Exp3 :: { Exp }
 Exp3 : Exp3 '||' Exp4 { AbsCPP.EOr $1 $3 } | Exp4 { $1 }
 Exp2 :: { Exp }
-Exp2 : Exp3 '=' Exp2 { AbsCPP.EAss $1 $3 }
+Exp2 : Exp3 '-=' Exp2 { AbsCPP.EMinAss $1 $3 }
+     | Exp3 '+=' Exp2 { AbsCPP.EAddAss $1 $3 }
+     | Exp3 '=' Exp2 { AbsCPP.EAss $1 $3 }
      | Exp3 '?' Exp2 ':' Exp2 { AbsCPP.ECond $1 $3 $5 }
      | Exp3 { $1 }
 Exp1 :: { Exp }

@@ -116,7 +116,7 @@ Def : Type Id '(' ListArg ')' '{' ListStm '}' { AbsCPP.DFun $1 $2 $4 (reverse $7
     | Type Id '(' ListArg ')' ';' { AbsCPP.DFunSBdy $1 $2 $4 }
     | 'using' QConst ';' { AbsCPP.DUs $2 }
     | 'typedef' Type Id ';' { AbsCPP.DType $2 $3 }
-    | Type ListId ';' { AbsCPP.DDecls $1 $2 }
+    | Type Id '=' Exp ';' { AbsCPP.DInit $1 $2 $4 }
 ListDef :: { [Def] }
 ListDef : {- empty -} { [] } | ListDef Def { flip (:) $1 $2 }
 Arg :: { Arg }

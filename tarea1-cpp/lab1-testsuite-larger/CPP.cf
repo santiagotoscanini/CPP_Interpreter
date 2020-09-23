@@ -3,32 +3,44 @@ PDefs.   Program ::= [Def] ;
 ;-- def. Functions, using, typedef
 DFun.       Def ::= Type Id "(" [Arg] ")" "{" [Stm] "}" ;
 DFunSBdy.   Def ::= Type Id "(" [Arg] ")" ";" ;
+DFunInline. Def ::= "inline" Type Id "(" [Arg] ")" "{" [Stm] "}" ;
+DFunSBdyIL. Def ::= "inline" Type Id "(" [Arg] ")" ";" ;
 DUs.        Def ::= "using" QConst ";" ;
 DType.      Def ::= "typedef" Type Id ";" ;
+DDecls.     Def ::= Decl ;
+DStruct.    Def ::= "struct" Id "{" [Decl] "}" ";";
 
 terminator Def "";
 
+;-- Declaration
+Decl. Decl ::=  Type [Id] ";" ;
+DInit.Decl ::=  Type Id "=" Exp ";";
+
+separator       Decl "" ;
+
 ;-- Arguments
-ADecl.          Arg ::= Type Id ;
-AConst.         Arg ::= "const" Arg ;
 ADeclBlnck.     Arg ::= Type ;
+ADecl.          Arg ::= Type Id ;
+ADeclIn.        Arg ::= Type Id "=" Exp15 ;
+AConst.         Arg ::= "const" Arg1 ;
 
 separator       Arg "," ;
 
 ;-- Statments
 SEmpty.      Stm ::= ";" ;
 SExp.        Stm ::= Exp ";" ;
-SDecls.      Stm ::= Type [Id] ";" ;
-SInit.       Stm ::= Type Id "=" Exp ";" ;
+SDecls.      Stm ::= Decl ;
 SReturn.     Stm ::= "return" Exp ";" ;
 SReturnVoid. Stm ::= "return" ";" ;
 SWhile.      Stm ::= "while" "(" Exp ")" Stm ;
+SDoWhile.    Stm ::= "do" Stm "while" "(" Exp ")" Stm ;
 SBlock.      Stm ::= "{" [Stm] "}" ;
 SIf.         Stm ::= "if" "(" Exp ")" Stm ;
 SIfElse.     Stm ::= "if" "(" Exp ")" Stm "else" Stm ;
-SFor.        Stm ::= "for" "(" Stm Exp ";" Exp ")" Stm ;
+SFor.        Stm ::= "for" "(" Decl Exp ";" Exp ")" Stm ;
 SType.       Stm ::= "typedef" Type Id ";" ;
 SConst.      Stm ::= "const" Type Exp2 ";" ; 
+SStruct.     Stm ::= "struct" Id "{" [Decl] "}" ";";
 
 terminator Stm "" ;
 
@@ -85,12 +97,14 @@ EAnd.    Exp4   ::= Exp4  "&&" Exp5 ;
 
 EOr.     Exp3   ::= Exp3  "||" Exp4 ;
 
+EMinAss. Exp2   ::= Exp3 "-=" Exp2 ;
+EAddAss. Exp2   ::= Exp3 "+=" Exp2 ;
 EAss.    Exp2   ::= Exp3 "=" Exp2 ;
 ECond.   Exp2   ::= Exp3 "?" Exp2 ":" Exp2 ;
 
 EExcp.   Exp1   ::= "throw" Exp2 ;
 
-internal ETyped. Exp15 ::= "(" Exp ":" Type ")" ; -- que hace esta linea, que esta linea
+internal ETyped. Exp15 ::= "(" Exp ":" Type ")" ; -- que hace esta linea, que es internal
 coercions Exp 16 ;
 separator Exp "," ;
 

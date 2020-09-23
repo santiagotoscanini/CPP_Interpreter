@@ -5,6 +5,8 @@ DFun.       Def ::= Type Id "(" [Arg] ")" "{" [Stm] "}" ;
 DFunSBdy.   Def ::= Type Id "(" [Arg] ")" ";" ;
 DUs.        Def ::= "using" QConst ";" ;
 DType.      Def ::= "typedef" Type Id ";" ;
+--DInit.      Def ::= Type Id "=" Exp ";" ;
+DDecls.     Def ::= Type [Id] ";" ;
 
 terminator Def "";
 

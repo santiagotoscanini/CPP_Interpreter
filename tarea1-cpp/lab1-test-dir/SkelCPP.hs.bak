@@ -21,7 +21,7 @@ transDef x = case x of
   DFunSBdy type_ id args -> failure x
   DUs qconst -> failure x
   DType type_ id -> failure x
-  DDecls type_ ids -> failure x
+  DInit type_ id exp -> failure x
 transArg :: Arg -> Result
 transArg x = case x of
   ADecl type_ id -> failure x

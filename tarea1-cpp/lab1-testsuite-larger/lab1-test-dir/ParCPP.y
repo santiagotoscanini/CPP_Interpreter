@@ -13,6 +13,7 @@ import ErrM
 %name pListDef ListDef
 %name pDecl Decl
 %name pListDecl ListDecl
+%name pArg1 Arg1
 %name pArg Arg
 %name pListArg ListArg
 %name pStm Stm
@@ -134,11 +135,12 @@ Decl : Type ListId ';' { AbsCPP.Decl $1 $2 }
      | Type Id '=' Exp ';' { AbsCPP.DInit $1 $2 $4 }
 ListDecl :: { [Decl] }
 ListDecl : {- empty -} { [] } | ListDecl Decl { flip (:) $1 $2 }
+Arg1 :: { Arg }
+Arg1 : Type { AbsCPP.ADeclBlnck $1 }
+     | Type Id { AbsCPP.ADecl $1 $2 }
+     | Type Id '=' Exp15 { AbsCPP.ADeclIn $1 $2 $4 }
 Arg :: { Arg }
-Arg : Type Id { AbsCPP.ADecl $1 $2 }
-    | Type Id '=' Exp15 { AbsCPP.ADeclIn $1 $2 $4 }
-    | 'const' Arg { AbsCPP.AConst $2 }
-    | Type { AbsCPP.ADeclBlnck $1 }
+Arg : 'const' Arg1 { AbsCPP.AConst $2 } | Arg1 { AbsCPP.ATodos $1 }
 ListArg :: { [Arg] }
 ListArg : {- empty -} { [] }
         | Arg { (:[]) $1 }

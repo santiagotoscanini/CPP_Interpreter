@@ -81,10 +81,11 @@ All other symbols are terminals.
   |  |  **|**  | //Type// //Id// ``=`` //Exp// ``;`` 
   | //[Decl]// | -> | **eps**
   |  |  **|**  | //Decl// //[Decl]// 
-  | //Arg// | -> | //Type// //Id// 
+  | //Arg1// | -> | //Type// 
+  |  |  **|**  | //Type// //Id// 
   |  |  **|**  | //Type// //Id// ``=`` //Exp15// 
-  |  |  **|**  | ``const`` //Arg// 
-  |  |  **|**  | //Type// 
+  | //Arg// | -> | ``const`` //Arg1// 
+  |  |  **|**  | //Arg1// 
   | //[Arg]// | -> | **eps**
   |  |  **|**  | //Arg// 
   |  |  **|**  | //Arg// ``,`` //[Arg]// 

@@ -121,10 +121,11 @@ instance Print [Decl] where
 
 instance Print Arg where
   prt i e = case e of
-    ADecl type_ id -> prPrec i 0 (concatD [prt 0 type_, prt 0 id])
-    ADeclIn type_ id exp -> prPrec i 0 (concatD [prt 0 type_, prt 0 id, doc (showString "="), prt 15 exp])
-    AConst arg -> prPrec i 0 (concatD [doc (showString "const"), prt 0 arg])
-    ADeclBlnck type_ -> prPrec i 0 (concatD [prt 0 type_])
+    ADeclBlnck type_ -> prPrec i 1 (concatD [prt 0 type_])
+    ADecl type_ id -> prPrec i 1 (concatD [prt 0 type_, prt 0 id])
+    ADeclIn type_ id exp -> prPrec i 1 (concatD [prt 0 type_, prt 0 id, doc (showString "="), prt 15 exp])
+    AConst arg -> prPrec i 0 (concatD [doc (showString "const"), prt 1 arg])
+    ATodos arg -> prPrec i 0 (concatD [prt 1 arg])
   prtList _ [] = concatD []
   prtList _ [x] = concatD [prt 0 x]
   prtList _ (x:xs) = concatD [prt 0 x, doc (showString ","), prt 0 xs]

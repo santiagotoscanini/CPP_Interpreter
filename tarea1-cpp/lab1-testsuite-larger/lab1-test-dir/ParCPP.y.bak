@@ -136,9 +136,9 @@ Decl : Type ListId ';' { AbsCPP.Decl $1 $2 }
 ListDecl :: { [Decl] }
 ListDecl : {- empty -} { [] } | ListDecl Decl { flip (:) $1 $2 }
 Arg1 :: { Arg }
-Arg1 : Type Id { AbsCPP.ADecl $1 $2 }
+Arg1 : Type { AbsCPP.ADeclBlnck $1 }
+     | Type Id { AbsCPP.ADecl $1 $2 }
      | Type Id '=' Exp15 { AbsCPP.ADeclIn $1 $2 $4 }
-     | Type { AbsCPP.ADeclBlnck $1 }
 Arg :: { Arg }
 Arg : 'const' Arg1 { AbsCPP.AConst $2 }
 ListArg :: { [Arg] }

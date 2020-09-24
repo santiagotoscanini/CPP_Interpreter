@@ -19,10 +19,11 @@ DInit.Decl ::=  Type Id "=" Exp ";";
 separator       Decl "" ;
 
 ;-- Arguments
-ADecl.          Arg ::= Type Id ;
-ADeclIn.        Arg ::= Type Id "=" Exp15 ;
-AConst.         Arg ::= "const" Arg ;
-ADeclBlnck.     Arg ::= Type ;
+ADeclBlnck.     Arg1 ::= Type ;
+ADecl.          Arg1 ::= Type Id ;
+ADeclIn.        Arg1 ::= Type Id "=" Exp15 ;
+AConst.         Arg ::= "const" Arg1 ;
+ATodos.         Arg ::= Arg1 ;
 
 separator       Arg "," ;
 

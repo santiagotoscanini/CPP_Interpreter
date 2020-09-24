@@ -81,9 +81,9 @@ All other symbols are terminals.
   |  |  **|**  | //Type// //Id// ``=`` //Exp// ``;`` 
   | //[Decl]// | -> | **eps**
   |  |  **|**  | //Decl// //[Decl]// 
-  | //Arg1// | -> | //Type// //Id// 
+  | //Arg1// | -> | //Type// 
+  |  |  **|**  | //Type// //Id// 
   |  |  **|**  | //Type// //Id// ``=`` //Exp15// 
-  |  |  **|**  | //Type// 
   | //Arg// | -> | ``const`` //Arg1// 
   | //[Arg]// | -> | **eps**
   |  |  **|**  | //Arg// 

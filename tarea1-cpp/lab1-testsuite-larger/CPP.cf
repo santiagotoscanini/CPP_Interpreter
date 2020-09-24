@@ -1,3 +1,6 @@
+;-- Santiago Toscanini  232566
+;-- Sofia Tejerina      209239 
+
 PDefs.   Program ::= [Def] ;
 
 ;-- def. Functions, using, typedef
@@ -19,10 +22,11 @@ DInit.Decl ::=  Type Id "=" Exp ";";
 separator       Decl "" ;
 
 ;-- Arguments
-ADeclBlnck.     Arg ::= Type ;
-ADecl.          Arg ::= Type Id ;
-ADeclIn.        Arg ::= Type Id "=" Exp15 ;
+ADeclBlnck.     Arg1 ::= Type ;
+ADecl.          Arg1 ::= Type Id ;
+ADeclIn.        Arg1 ::= Type Id "=" Exp15 ;
 AConst.         Arg ::= "const" Arg1 ;
+ATodos.         Arg ::= Arg1 ;
 
 separator       Arg "," ;
 

@@ -26,10 +26,10 @@ data Decl = Decl Type [Id] | DInit Type Id Exp
   deriving (Eq, Ord, Show, Read)
 
 data Arg
-    = AConst Arg
+    = ADeclBlnck Type
     | ADecl Type Id
     | ADeclIn Type Id Exp
-    | ADeclBlnck Type
+    | AConst Arg
   deriving (Eq, Ord, Show, Read)
 
 data Stm

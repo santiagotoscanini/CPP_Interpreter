@@ -31,10 +31,11 @@ transDecl x = case x of
   DInit type_ id exp -> failure x
 transArg :: Arg -> Result
 transArg x = case x of
+  ADeclBlnck type_ -> failure x
   ADecl type_ id -> failure x
   ADeclIn type_ id exp -> failure x
   AConst arg -> failure x
-  ADeclBlnck type_ -> failure x
+  ATodos arg -> failure x
 transStm :: Stm -> Result
 transStm x = case x of
   SEmpty -> failure x

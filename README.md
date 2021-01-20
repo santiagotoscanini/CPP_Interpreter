@@ -1,4 +1,4 @@
-# Lenguajes de Programacion Image
+# CPP Interpreter Image
 
 This image contains the required tools to follow course's book.
 
@@ -11,7 +11,7 @@ This image contains the required tools to follow course's book.
 You can use this image in two ways:
  - work in the image's terminal
  - work executing docker run commands from a host's terminal
- 
+   
  Next two sections explains this two ways of working.
 
 ## Execute commands inside a docker terminal
@@ -108,3 +108,12 @@ Executes previous generated parser with arithmetic expressions `5 + 6 * 7`
 Executes previous generated parser with a `expression.txt` input file.
 
 >docker run --rm --volume $(pwd):/langProg -it language-image bash -c  'cd arithmetic-expressions; ./TestCalc expression.txt'
+
+## Task 1
+
+To run task 1 first we need to compile the Haskell file that run tests.
+
+run `ghc --make -o progs-test-lab1 progs-test-lab1.hs` inside `Task 1/tests/lab1-testsuite` 
+
+Then run the compiled file with the path to our .cf file.
+`./progs-test-lab1 ../../Tokenizer & Parser & Abstract Syntax Tree/CPP.cf`
